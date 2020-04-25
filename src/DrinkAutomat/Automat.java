@@ -11,7 +11,7 @@ public class Automat extends JFrame {
     int money = 2;
     State myState;
 
-    JLabel info = new JLabel("Icecek: "+ drink + "|| Para:  " + money);
+    JLabel info = new JLabel("Icecek: " + drink + "|| Para:  " + money);
 
     public Automat() {
         this.myState = new DontGiveDrinkState(this);
@@ -19,7 +19,6 @@ public class Automat extends JFrame {
     }
 
     public void payMoney() {
-        money--;
         this.myState.payMoney();
     }
 
@@ -28,7 +27,6 @@ public class Automat extends JFrame {
     }
 
     public void giveDrink() {
-        drink--;
         this.myState.giveDrink();
     }
 
@@ -47,18 +45,8 @@ public class Automat extends JFrame {
         paymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(myState instanceof DontGiveDrinkState && money > 0 ) {
-                    payMoney();
-                    info.setText("Icecek: "+ drink + "|| Para:  " + money);
-                    JOptionPane.showMessageDialog(myFrame, "para atıldı Lütfen içeceğinizi almak için Drink butonuna basınız.");
-                }
-                else if (myState instanceof DontGiveDrinkState && money <= 0){
-                    absentMoney();
-                    info.setText("Icecek: " + drink + " || para: " + money);
-                    JOptionPane.showMessageDialog(myFrame,"Bakiye bitti.");
-                }
-                else
-                    JOptionPane.showMessageDialog(myFrame,"Para attın içecek almadın.");
+                payMoney();
+                info.setText("Icecek; " + drink + "|| Para:  " + money);
                 myFrame.validate();
             }
         });
@@ -66,18 +54,8 @@ public class Automat extends JFrame {
         drinkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(myState instanceof GiveDrinkState && drink > 0) {
-                    giveDrink();
-                    info.setText("Icecek; "+ drink + "|| Para:  " + drink);
-
-                    JOptionPane.showMessageDialog(myFrame, "Afiyet olsun.");
-                }
-                else if(myState instanceof GiveDrinkState && drink <= 0){
-                 absentDrink();
-                 JOptionPane.showMessageDialog(myFrame,"İçecek kalmadı.");
-                }
-                else
-                    JOptionPane.showMessageDialog(myFrame,"Henüz para atmadınız.Lütfen Para atma butonuna basınız.");
+                giveDrink();
+                info.setText("Icecek; " + drink + "|| Para:  " + money);
                 myFrame.validate();
             }
         });
@@ -86,7 +64,7 @@ public class Automat extends JFrame {
         myFrame.add(paymentButton, BorderLayout.EAST);
         myFrame.add(drinkButton, BorderLayout.WEST);
         myFrame.add(info, BorderLayout.CENTER);
-        myFrame.setPreferredSize(new Dimension(500,250));
+        myFrame.setPreferredSize(new Dimension(500, 250));
         myFrame.pack();
         myFrame.setVisible(true);
     }
